@@ -1,0 +1,120 @@
+/* layout */
+.container{
+    display: flex;
+}
+
+.container .section-text{
+    flex-grow: 1;
+}
+
+.container .container2{
+    flex-basis: 486;
+    flex-shrink: 0;
+}
+
+@media (min-width: 1200px){
+    .container .container2{
+        flex-basis: 486;
+        flex-shrink: 0;
+    }
+    
+}
+
+@media (max-width: 1200px){
+    .container{
+        flex-direction: column;
+        gap: 60px;
+    }
+}
+
+.container2{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) and (max-width: 1200px){
+    .container2{
+        flex-direction: row;
+    }   
+}
+
+.container2 .link1,
+.container2 .link2{
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+@media (max-width: 768px){
+    .container2{
+        gap: 14px;
+    }
+    
+}
+
+/* style */
+.container{
+    width: 1200px;
+    max-width: calc(100% -60px);
+    min-width: 300px;
+}
+
+.section-text h1{
+    color: #121314;
+    font-size: 70px;
+    font-weight: normal;
+}
+
+.link1 p{
+    color: #47494d;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.link1,
+.link2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border-radius: 20px;
+    color: white;
+    /* height와 width로 사진 넓이 설정말고, aspect-ratio로 */
+    aspect-ratio: 486/280;
+    padding: 40px 30px 30px 40px;
+}
+
+.link1{
+    /* 0 0은 background position */
+    background: url(./img/background1.jpg) no-repeat 0 0/ cover;    
+}
+
+.link2{
+    background: url(./img/background2.jpg) no-repeat 0 0/ cover;
+}
+
+.link1 strong,
+.link2 strong{
+    font-size: 30px;
+}
+
+.link1 span,
+.link2 span{
+    align-self: flex-end;    
+}
+
+.go-after::after{
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    border: 1px solid #fff;
+    border-width: 2px 2px 0 0;
+    transform: rotate(45deg);
+    margin-left: 0.2em;
+}
+
+.go-bg{
+    padding-right: 1.2em;
+    background: url(./img/arrow.svg) no-repeat 100% center/ 1.2em; 
+}

@@ -1,0 +1,91 @@
+/* 위에서부터 차곡차곡 내려가면서 css 작업 */
+
+
+@font-face {
+    font-family: 'GmarketSansBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url("https://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2%22") format('woff2'),
+    url("https://fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff%22") format('woff')
+}
+
+#app{
+    font-family: GmarketSansMedium;
+    background-color: #5b2386;
+    color: #fff;
+    text-align: center;
+    padding-top: 195px;
+}
+
+header {
+    margin-bottom:95px ;
+}
+
+/* 부모를 타고 들어가야 안전함 */
+header .tit-law{
+    position: relative;
+}
+
+header .tit-law .img{
+    width: 100%;
+}
+
+header .tit-law::after{
+    display: block;
+    content: '';
+    position: absolute;
+    width: 224px;
+    height: 224px;
+    top: 50%;
+    left: 50%;
+    margin: -112px 0 0 -112px;
+    background-image: url("/10000/image/title_bg.png");
+    background-size: contain;/* 짤리지 않게해줌 */
+}
+
+header .img-txt{
+    max-width: 486px;
+    margin: 125px auto 84px;
+}
+
+header .txt-desc {
+    position: relative;
+    max-width: 475px;
+    margin: 0 auto;
+    line-height: 30px;
+    font-size: 18px;
+}
+
+.txt desc .tit-desc{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.txt desc::before,
+.txt desc::after{
+    position: absolute;
+    top: 50%;
+    content: '';
+    width: 37px;
+    height: 32px;
+    margin-top: -16px;
+}
+
+.txt desc::before{
+    left: 0;
+
+}

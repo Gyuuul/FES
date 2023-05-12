@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrap">
+
+        <section class="top">
+            <h1 class="txt-top">로그인 또는 회원가입</h1>
+            <button type="button" class="btn-x"><img src="./images/close.png" alt=""></button>
+        </section>
+
+        <section class="login">
+            <h2>위니브에서 여러분의 궁금증을 해결하세요!:)</h2>
+            <form class="form-login">
+            <ul>
+                <li class="id">
+                    <label class="a11y-hidden" for="user-id"></label>
+                    <input id="user-id" type="id" placeholder="아이디" required>
+                </li>
+                <li class="pw">
+                    <label class="a11y-hidden" for="user-pw"></label>
+                    <input id="user-pw" type="password" placeholder="비밀번호"required>
+                </li>
+                <!-- 로그인 상태 유지 -->
+                <li class="login-keep">
+                    <input type="checkbox" id="inpHold" class="inp-hold txt-hide">
+                    <label class="labl-hold" for="inpHold">로그인 상태 유지</label>            
+                </li>
+                <!-- /로그인 상태 유지 -->
+                <li class="login-btn">
+                    <button class="txt-login" type="submit">로그인</button>
+                </li>
+            </form>
+                <div class="login-support">
+                    <li class="login-join">회원가입</li>
+                    <li class="search">아이디/비밀번호 찾기</li>
+                </div>
+            </ul>
+        </section>
+
+        <section class="bottom">
+
+            <div class="line">
+            <div class="line-bottom"></div>
+            <div class="txt-bottom">또는</div>
+            <div class="line-bottom"></div>
+            </div>
+            
+            <ul class="login-more">
+                <li class="list-google"><img class="img" src="./images/icon_google.png" alt="">구글 계정으로 로그인</li>
+                <li class="list-facebook"><img class="img" src="./images/icon_facebook.png" alt="">페이스북 계정으로 로그인</li>
+                <li class="list-naver">네이버 계정으로 로그인</li>
+                <li class="list-kakao">카카오톡 계정으로 로그인</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

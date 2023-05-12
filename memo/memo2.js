@@ -1,0 +1,116 @@
+// 기능이 뭐가있어야할까..
+
+// 1.입력할 수 있어야함. 통과
+
+// 2.입력한걸 저장해야함
+// 2.1 입력한 값을 우리가 가져와야하죠.
+// 2.1.1 버튼눌렀을때!
+// 2.1.2 메모제목이랑 메모내용을 가져와서 한번에 저장해야!
+// 2.2 입력한 값 가져온걸 저장할거임.
+// 2.3 저장했을때 입력한곳 초기화해야함.
+
+// 3.저장된거 불러와야함
+// 3.1 화면에 보여주기 ㅋ
+// 3.2 메모들을 가져와함
+// 3.3 메모내용으로 li요소를 만들었음
+// 3.4 li요소에는 strong과 p태그로 각각 title이랑 content를 넣어줌
+// 3.5 가져온 메모들을 화면에 뿌려주자
+
+// 4.삭제해야함
+
+// 5.수정해야함
+
+// // <p></p>
+// <input type="text">
+// <button>Write Something!</button>
+
+// <script>
+//     const myBtn = document.querySelector("button");
+// const myP = document.querySelector("p");
+// const myInput = document.querySelector("input");
+
+// myBtn.addEventListener('click', function(){
+// 	myP.textContent = myInput.value;
+// });
+// // 글쓰고 버튼 누르면 위에 뜸. 글을 지워도 위에껀 삭제 안됨
+
+// myInput.addEventListener('input', ()=>{
+//   myP.textContent = myInput.value;
+// });
+// // 글쓰는게 위에서 실시간 반영됨. 글을 지우면 위에도 지워짐
+// </script>
+
+function getMemoTitle() {
+  const memoTitle = document.querySelector("#memotitle").value;
+  //value를 지우니 값을 못가져와서 [object HTMLInputElement] 문구가 뜸
+  return memoTitle;
+}
+function getMemoContent() {
+  const memoContent = document.querySelector("#memo").value;
+  return memoContent;
+}
+
+function resetInput() {
+  document.querySelector("#memotitle").value = "";
+  document.querySelector("#memo").value = "";
+}
+// 메모 입력 버튼을 눌렀을 때 칸에 쓴게 없어지는 것
+function createMemo() {
+  const title = getMemoTitle();
+  const content = getMemoContent();
+
+  const memoObj = {
+    title: title,
+    content: content,
+  };
+
+  return memoObj;
+}
+//메모를 생성하는 것! 이게 없으면 메모 입력을 해도 기록이 안됨
+const memolists = [];
+//메모한 걸 담는 공간
+
+function saveMemo(memo) {
+  memolists.push(memo);
+}
+
+function createMemoLi(memo) {
+  // 요소 만들기
+  // memo를 저장할 li요소만들기
+  const $memoLi = document.createElement("li");
+  // title을 넣어줄 strong
+  const $title = document.createElement("strong");
+  // content를 넣어줄 p
+  const $content = document.createElement("p");
+  // title요소(strong)에 실제 메모의 제목 텍스트를 넣어준다
+  $title.innerHTML = memo.title;
+  // content요소(p)에 실제 메모의 내용 텍스트를 넣어준다.
+  $content.innerHTML = memo.content;
+  // title요소와 content요소를 li안에 넣어준다.
+  $memoLi.append($title, $content);
+  // 그리고 완성된 memoli를 함수호출한 곳에 돌려준다.=> 내가 작성한게 밑에 보임!
+  
+  return $memoLi;
+}
+
+function showMemo() {
+  // li요소 "들"이 보여지는 것!
+  const $memoLists = memolists.map(createMemoLi);
+  const $memoUl = document.querySelector(".memolists");
+  // 내용을 채워넣기전에 청소하기.
+  $memoUl.innerHTML = "";
+  // 메모들을 전부 li요소로 만들었는데
+  // 이걸 memoUL에 뿌려준다.
+  $memoUl.append(...$memoLists);
+}
+
+function buttonOnclickHandler() {
+  const memo = createMemo();
+  saveMemo(memo);
+  showMemo();
+  resetInput();
+}
+
+const $memoButton = document.querySelector("#memosubmit");
+$memoButton.onclick = buttonOnclickHandler;
+//onclick이벤트는 사용자가 눌렀을 때 발생

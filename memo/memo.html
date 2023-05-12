@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📃memo📃</title>
+    
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            display: block;
+            width: 300px;
+            height: 30px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            display: block;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            display: block;
+            width: 306px;
+            height: 30px;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>메모장</h1>
+    <section>
+        <input type="text" id="memotitle" />
+        <textarea id="memo"></textarea>
+        <button id="memosubmit" type="button">메모</button>
+    </section>
+    <ul class="memolists"></ul>
+</body>
+
+<script>
+
+// 메모 제목 함수
+function getMemoTitle() {
+    const memoTitle = document.querySelector("#memotitle").value;
+    return memoTitle;
+}
+
+// 메모 내용 함수
+function getMemoContent(){
+    const memoContent= document.querySelector("#memo").value;
+    return memoContent;
+}
+
+// 메모 버튼 누르면 input이 초기화 되는 함수
+function resetInput() {
+    document.querySelector("#memotitle").value = "";
+    document.querySelector("#memo").value = "";
+}
+
+// 메모 생성 함수
+function createMemo() {
+    const title = getMemoTitle();
+    const content = getMemoContent();
+
+    const memoObj = {
+    title: title,
+    content: content,
+    };
+
+    return memoObj;
+}
+
+// 메모 내용을 담는 배열
+const memolists = [];
+
+// 메모 저장 함수
+function saveMemo(memo) {
+    memolists.push(memo);
+}
+
+// 저장할건데 ~ 어떤 형태로 저장이 되는가?
+// 메모 작성시 밑에 보여지는 '요소' 함수
+function createMemoLi(memo) {
+    const $memoLi = document.createElement("li");
+    const $title = document.createElement("strong");
+    const $content = document.createElement("p");
+    $title.innerHTML = memo.title;
+    $content.innerHTML = memo.content;
+    $memoLi.append($title, $content);
+
+    return $memoLi;
+}
+
+// 메모 작성시 밑에 보여지는 '요소'들 함수
+function showMemo() {
+    const $memoLists = memolists.map(createMemoLi);
+    const $memoUl = document.querySelector(".memolists");
+    $memoUl.innerHTML = "";
+    $memoUl.append(...$memoLists);
+}
+
+// 메모 버튼 이벤트
+function buttonOnclickHandler() {
+    const memo = createMemo();
+    saveMemo(memo);
+    showMemo();
+    resetInput();
+}
+
+const $memoButton = document.querySelector("#memosubmit");
+$memoButton.onclick = buttonOnclickHandler;
+</script>
+</html>

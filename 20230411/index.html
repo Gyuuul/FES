@@ -1,0 +1,68 @@
+<form id="mainForm">
+    <link rel="stylesheet" href="style.css">
+    <fieldset>
+        <legend>JS 스터디 모집 설문조사</legend>
+        <!-- progress : 작업의 완료 정도를 나타내는 요소입니다. -->
+        <progress max="100" value="0" class="bar-progress"></progress>
+        <p class="msg-notice">설문지를 작성하세요!</p>
+
+        <label for="q1">질문 1. 무엇을 가장 배우고 싶으세요?</label>
+        <input type="text" id="q1" required>
+        <label for="q2">질문 2. 시간은 언제가 적당한가요?</label>
+        <input type="text" id="q2" required>
+        <label for="q3">질문 3. 몇 시간정도 예상하세요?</label>
+        <input type="text" id="q3" required>
+        <label for="q4">질문 4. 난이도를 조정한다면?</label>
+        <input type="text" id="q4" required>
+        <label for="q5">질문 5. 끝으로 하고싶은 말이 있나요?</label>
+        <input type="text" id="q5" required>
+
+        <button type="submit">제출</button>
+        <button type="reset">초기화</button>
+    </fieldset>
+</form>
+
+<script>
+        const mainForm = document.getElementById('mainForm');
+        const progress = document.querySelector('.bar-progress');
+        const msgNotice = document.querySelector('.msg-notice');
+
+        mainForm.addEventListener('input', function (event) {
+            const inputs = mainForm.querySelectorAll('input');
+            const validInputs = mainForm.querySelectorAll('input:valid');
+
+            progress.value = validInputs.length / inputs.length * 100;
+            if (progress.value === 20) {
+                msgNotice.textContent = '설문지 작성이 시작되었어요~ 끝까지 작성해주세요!';
+            } else if (progress.value === 40) {
+                msgNotice.textContent = '좋아요~ 계속 고고씽~!';
+            } else if (progress.value === 60) {
+                msgNotice.textContent = '절반 지났습니다! 화이팅!';
+            } else if (progress.value === 80) {
+                msgNotice.textContent = '거의 다 했어요! 조금만 더 ~~';
+            } else if (progress.value === 100) {
+                msgNotice.textContent = '잘했습니다! 제출해주세요~';
+            } else {
+                msgNotice.textContent = '설문지를 작성하세요!';
+            }
+        })
+
+        mainForm.addEventListener('click', function (event) {
+            const target = event.target;
+            if (target.tagName !== 'BUTTON') return;
+
+            if (target.type === 'submit') {
+                const inputs = mainForm.querySelectorAll('input');
+                const validInputs = mainForm.querySelectorAll('input:valid');
+
+                if (validInputs.length === inputs.length) {
+                    alert('제출되었습니다.');
+                } else {
+                    alert('입력이 완료되지 않았습니다.');
+                }
+            } else if (target.type === 'reset') {
+                progress.value = 0;
+                msgNotice.textContent = '설문지를 작성하세요!';
+            }
+        })
+</script>

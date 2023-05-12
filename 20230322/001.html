@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .txt-hide {
+            position: absolute;
+            clip: rect(0 0 0 0);
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+        }
+
+    .labl-hold{
+        position: relative;
+        display: inline-block;
+        margin:20px 0;
+        font-size: 16px;
+        cursor: pointer;
+        
+    }
+
+    .labl-hold::before{
+        content:'';
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        border: 1px solid #000;
+        /* 박스와 글씨가 베이스라인을 기준으로 배치되는 것을 위로 올릴 수 있게 설정 */
+        vertical-align: -5px;
+        /* 박스와 글씨 사이에 간격 */
+        margin-right: 10px;
+    }
+
+    /*focus-visible은 키보드를 눌렀을 때만 사용, 시각장애인은 tap으로 이동하기 때문*/
+/* focus-visible */
+/* 포커싱 이벤트가 일어나면 무조건 작동하는 :focus 와는 다르게 키보드 입력이 일어났을 경우만 가상클래스를 적용하게 합니다.
+특히 접근성을 위해 사용하는 경우 마우스 이벤트로도 작동하는 focus는 시각적인 불편함과 체크를 해제했음에도 포커스되어 있다는 이유로 작동하는 혼란을 줄 수 있기 때문에 focus-visible 이 더 효과적이라고 볼 수 있습니다. */
+    .inp-hold:focus-visible+.labl-hold::before{
+        outline: 2px solid #000;
+        outline-offset: 5px;
+    }
+    /* 가상요소 줬는데, 인라인이라 안뜸, 따라서 inline-block */
+    .labl-hold::after{
+        /* static 이외의 부모 */
+        position: absolute;
+        top: 2px;
+        left: 22px;
+        content:'';
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        /* background-image: url(./images/checkmark.png);
+        background-size: 22px;
+        background-repeat: no-repeat; */
+        background: url(./images/checkmark.png) 0 0/22px no-repeat;
+        transition: .3s ease;
+        opacity: 0;
+    }
+/* labl이 체크 됐을 때, after요소에 밑에 속성을 적용해라 */
+    .inp-hold:checked+.labl-hold::after{
+        left: 1px;
+        opacity: 1;
+    }
+    </style>
+</head>
+
+<body>
+    <input type="checkbox" id="inpHold" class="inp-hold txt-hide">
+    <label for="inpHold" class="labl-hold">로그인 상태 유지</label>
+
+
+
+</body>
+</html>

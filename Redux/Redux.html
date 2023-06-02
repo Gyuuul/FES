@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.js"></script>
+</head>
+<body>
+    <style>
+        .container{
+            border: 5px solid black;
+            padding: 10px;
+            margin-top: 5px;
+        }
+    </style>
+    <div id="red"></div>
+    <script>
+        // 2. reducer생성
+        // 리듀서는 dispatch에 의해서 action이 들어오면 리듀서가 액션값과 기존의 state값을 참조하여 새로운 state값을 만들어주는게 리듀스의 역할
+        function reducer(state,action){
+            // 스토어를 처음 만들 때 스테이트의 초기값이 필요함.
+            // 아직 초기값이 설정되지 않았다면 undifined이니까 //초기값 설정
+            if(state===undefined){
+                return {color:"yellow"}
+            }
+        }
+        // 1. script 태그에 의해서 redux라는 객체가 생김. store 생성하면 내부적으로 state 생김
+        // createStore의 입력값에는 reducer이 들어가야함. 위에 생성
+        let store= Redux.createStore(reducer);
+        // 3. 잘 됏는지 확인하기 위하여 store에 저장된 state값을 가져오기 위해 getState사용
+        console.log(store.getState());
+
+function red(){
+    // 4. state에 저장되어 있는 것을 가져옴
+    let state = store.getState();
+    document.querySelector('#red').innerHTML=
+    //${state.color} state의 color를 가져옴
+    //만약 return의 color를 red로 바꾸면 red로 뜸
+    `
+        <div class="container" id="conponent_red" style="backgroundColor:${state.color}">
+        <h1>red</h1>
+        <input type="button" value="fire" onclick="
+        document.querySelector('#conponent_red').style.backgroundColor='red';
+        document.querySelector('#conponent_green').style.backgroundColor='red';
+        document.querySelector('#conponent_blue').style.backgroundColor='red';
+        ">
+        </div>
+        `;
+}
+red();
+    </script>
+</body>
+</html>

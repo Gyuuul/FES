@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.js"></script>
+</head>
+<body>
+    <style>
+        .container{
+            border: 5px solid black;
+            padding: 10px;
+            margin-top: 5px;
+        }
+    </style>
+
+    <div id="red"></div>
+    <div id="blue"></div>
+    <script>
+    
+        function reducer(state,action){
+            console.log(state,action);
+
+            if(state===undefined){
+                return {color:"yellow"}
+            }
+            let newState;
+            if(action.type ==='CHANGE_COLOR'){
+                newState=Object.assign({}, state, {color:action.color})
+            }return newState;
+        }
+
+let store= Redux.createStore(
+    reducer,
+    // 리덕스 데브툴을 설치하고 이 문구를 추가해줘야함
+    window.__REDUX_DEVTOOLS_EXTENSION__ && 
+    window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+function red(){
+
+    let state = store.getState();
+    document.querySelector('#red').innerHTML=
+
+    `
+        <div class="container" id="conponent_red" style="background-color:${state.color}">
+        <h1>red</h1>
+        <input type="button" value="fire" onclick="
+            store.dispatch({type:'CHANGE_COLOR', color:'red'});
+        ">
+        </div>
+        `;
+}
+red(); 
+store.subscribe(red);
+
+function blue(){
+
+let state = store.getState();
+document.querySelector('#blue').innerHTML=
+
+`
+    <div class="container" id="conponent_blue" style="background-color:${state.color}">
+    <h1>blue</h1>
+    <input type="button" value="fire" onclick="
+        store.dispatch({type:'CHANGE_COLOR', color:'blue'});
+    ">
+    </div>
+    `;
+}
+blue();
+store.subscribe(blue);
+    </script>
+</body>
+</html>

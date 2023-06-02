@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        path{
+            fill: none;
+            stroke: pink;
+            stroke-width: 5px;
+            stroke-linecap: round;
+            stroke-dasharray: 1015 1015;
+            animation: line 3s infinite;
+            
+        }
+
+        @keyframes line {
+            from{
+                stroke-dashoffset: 1015;
+            }to{
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <svg width="211" height="238" viewBox="0 0 211 238" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="211" height="238" fill="#F5F5F5"/>
+        <path id="path1" 
+        d="M165.013 57.1686C108.644 51.1866 59.2316 51.6219 20.156 96.444C-1.39865 121.168 -1.83593 152.667 9.75954 183.312C23.6628 220.056 60.18 229.874 95.7033 233.446C116.332 235.52 140.598 238.722 159.93 229.056C174.89 221.576 189.571 206.582 196.895 191.629C212.515 159.738 213.623 115.953 196.895 84.5459C190.751 73.009 183.29 63.6569 172.868 55.7824C162.151 47.6854 164.058 59.6088 162.009 68.2581C158.78 81.8919 155.855 96.0466 140.523 100.603C120.247 106.628 95.7521 102.382 79.3001 89.1665C67.1558 79.4112 57.7102 62.2949 66.2468 47.1187C69.9035 40.6179 90.8471 70.628 94.2016 74.6115C97.6175 78.6678 99.0069 83.4667 100.555 76.1132C105.104 54.5036 96.2956 26.5315 107.717 6.80368C108.618 5.24702 115.682 0.0676217 117.189 1.95201C123.09 9.32763 119.51 32.0116 117.074 39.7257C113.362 51.4808 100.579 67.6008 108.872 80.0407" stroke="black" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        
+        <script>
+            const path1= document.querySelector('#path1');
+            console.log(path1.getTotalLength())
+            // 선의 길이 알아보기
+        </script>
+</body>
+</html>

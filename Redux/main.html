@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.js"></script>
+</head>
+<body>
+    <div id="subject"></div>
+    <div id="toc"></div>
+    <div id="control"></div>
+    <div id="content"></div>
+<script>
+// header부분을 함수에 넣어주어 모듈화 한다.
+function subject(){
+    document.querySelector("#subject").innerHTML=
+    `
+        <header>
+            <h1>WEB</h1>
+            Hello, WEB!
+        </header>
+    `
+}
+// Topic table of content = 글 목록을 나타낼 때 많이 사용
+function TOC(){
+    // innerHTML에 있는 글 목록을 store의 정보로 바탕으로 가져오려면
+    let state= store.getState();
+    let i= 0;
+    let liTags='';
+    while(i<state.contents.length){
+        // action을 만드려면 이 부분을 수정
+        liTags= liTags+ `
+            <li>
+                <a onclick='
+                    event.preventDefault();
+                    let action = {type:'SELECT', id:${state.contents[i].id}}
+                    store.dispatch(action);
+                ' href="${state.contents[i].id}">${state.contents[i].title}</a>
+            </li>
+                `;
+        i+=1;
+    }
+    document.querySelector('#toc').innerHTML=
+    `
+        <nav>
+            <ol>${liTags}</ol>
+        </nav>
+    `;
+}
+function control(){
+    // delete는 페이지 개념이 아닌 작업의 개념이기 때문에
+    // 링크로 하면 자동화된 프로그램이 삭제를 누를 수도 있으니
+    // 버튼으로 사용하는 것이 낫다.
+    document.querySelector("#control").innerHTML=
+    `
+        <ul>
+            <li><a onclick='
+                event.preventDefault();
+                store.dispatch({
+                    type:"CHANGE_MODE",
+                    mode:"create"
+                })
+                '
+                href="/create">create</a>
+            </li>
+            <li><input onclick="
+                store.dispatch({
+                    type:"DELETE"
+                });"
+                type="button" value="delete"></li>
+        </ul>
+    `;
+}
+// state값을 변경하려는 것. = action 발생, dispatch를 통해 리듀서를
+// 실행시키면 리듀서가 새로운 state 값을 반환함.
+// 그리고 state의 값이 바뀌면 subscribe 함수를 호출해주는 것을 통해
+// UI가 업데이트 된다.
+
+// submit버튼을 클릭했을때 onsubmit 이벤트가 호출되도록 약속됨
+function article(){
+    let state= store.getState();
+
+    if(state.mode === 'create'){
+        document.querySelector("#content").innerHTML=
+        `
+        <article>
+            <form onsubmit="event.preventDefault();
+            let _title = this.title.value;
+            let _desc = this.desc.value;
+
+            store.dispatch({
+                type:"CREATE",
+                title:_title,
+                desc:_desc
+            })">
+                <p>
+                    <input type="text" name="title" placeholder="title">
+                </p>
+                <p>
+                    <textarea name="desc" placeholder="description"></textarea>
+                </p>
+                <p>
+                    <input type="submit">
+                </p>
+            </form>
+        </article>
+        `;
+
+    }else if(state.mode === 'read'){
+        let i=0;
+        let aTitle, aDesc;
+        while(i<state.contents.length){
+            if(state.contents[i].id === state.selected_id){
+                aTitle= state.contents[i].title;
+                aDesc= state.contents[i].desc;
+                break;
+            }
+            i+=1;
+        }
+        document.querySelector("#content").innerHTML=
+        `
+        <article>
+            <h2>${aTitle}</h2>
+            ${aDesc}
+        </article>
+        `
+    }else if(state.mode==='welcome'){
+        document.querySelector("#content").innerHTML=
+        `
+        <article>
+            <h2>Welcome</h2>
+            Hello, Redux !!!
+        </article>
+        `
+    }
+}
+function reducer(state,action){
+    // store를 처음 생성하면 최초 1회 action과는 상관 없이
+    // state가 호출된다. 이때 state의 값은 undefined
+    if(state===undefined){
+        // 이렇게 true 조건문을 주면 초기값을 세팅할 기회
+        // 이 때 애플리케이션이 필요로 하는 정보를 넣어주면 된다.
+        // 1.HTML, 2.CSS 글목록을 넣어줄 것.
+        return{
+            // id를 관리하기 위해서 만들어줌
+            max_id:2 ,
+            mode:'welcome',
+            selected_id:1,
+            contents:[
+                {id:1, title:"HTML", desc:"HTML is ..."},
+                {id:2, title:"CSS", desc:"CSS is ..."}
+            ]
+        }
+    }
+    // state 값을 리턴할 때는 복제된 값을 리턴해줘야함
+    let newState;
+    if(action.type === 'SELECT'){
+        // 세 번째 프로퍼티로, 현재 선택된 프로퍼티가 무엇인지 알려주기 위해서
+        // 초기값에 selected_id라는 애를 쓸 것임
+        newState= Object.assign({},state,{selected_id:action.id, mode:'read'});
+    }else if(action.type === 'CREATE'){
+        // 기존에 있던 아이디의 1을 더함
+        let newMaxId = state.max_id+1;
+        // 위에 배열을 복제할 것임
+        // 아무런 인자를 주지 않은 concat은 배열을 복제할 때 Object 대신에 씀
+        let newContents = state.contents.concat();
+        // id값은 글을 생성하는 시점에서는 알 수가 없음
+        newContents.push({id:newMaxId, title:action.title, desc:action.desc});
+        newState= Object.assign({},state,{
+            max_id:newMaxId,
+            contents:newContents,
+            mode:'read'
+        })
+    }else if(action.type==='DELETE'){
+        let newContents= [];
+        let i= 0;
+        while(i<state.contents.length){
+            if(state.selected_id !== state.contents[i].id){
+                newContents.push(state.contents[i]);
+            }
+            i+=1;
+        }
+        newState=Object.assign({},state,{
+            contents:newContents,
+            mode: 'welcome'
+        })
+    }else if(action.type==='CHANGE_MODE'){
+        newState= Object.assign({},state,{
+            mode:action.mode
+        });
+    }
+    return newState;
+}
+// 리덕스의 스토어를 생성하기 위하여 createStore 함수 호출. 이때 reducer 함수도 같이!
+let store= Redux.createStore(reducer);
+// state값이 바뀔 때마다 article 호출
+store.subscribe(article);
+store.subscribe(TOC);
+subject();
+TOC();
+control();
+article();
+
+</script>
+</body>
+</html>
